@@ -25,79 +25,77 @@ func init() {
 	os.Setenv(DurationName, fmt.Sprint(DurationValue))
 }
 
-func TestGetEnvString(t *testing.T) {
-	s := GetEnvStringOrDefault(StringName, StringValue+"_nope")
-	if s != StringValue {
-		t.Errorf("Expected %s but got %s", StringValue, s)
+func TestGetEnvStringOrDefault(t *testing.T) {
+	var tests = []struct {
+		envName  string
+		defValue string
+		expected string
+	}{
+		{StringName, StringValue + "_nope", StringValue},
+		{StringName + "_nope", StringValue, StringValue},
+	}
+
+	for _, test := range tests {
+		s := GetEnvStringOrDefault(test.envName, test.defValue)
+		if s != test.expected {
+			t.Errorf("Expected %s but got %s", test.expected, s)
+		}
 	}
 }
 
-func TestGetEnvStringDefault(t *testing.T) {
-	s := GetEnvStringOrDefault(StringName+"_nope", StringValue)
-	if s != StringValue {
-		t.Errorf("Expected %s but got %s", StringValue, s)
+func TestGetEnvIntOrDefault(t *testing.T) {
+	var tests = []struct {
+		envName  string
+		defValue int
+		expected int
+	}{
+		{IntName, IntValue + 1, IntValue},
+		{IntName + "_nope", IntValue, IntValue},
+		{StringName, IntValue, IntValue},
+	}
+
+	for _, test := range tests {
+		i := GetEnvIntOrDefault(test.envName, test.defValue)
+		if i != test.expected {
+			t.Errorf("Expected %d but got %d", test.expected, i)
+		}
 	}
 }
 
-func TestGetEnvInt(t *testing.T) {
-	i := GetEnvIntOrDefault(IntName, IntValue-1)
-	if i != IntValue {
-		t.Errorf("Expected %d but got %d", IntValue, i)
+func TestGetEnvBoolOrDefault(t *testing.T) {
+	var tests = []struct {
+		envName  string
+		defValue bool
+		expected bool
+	}{
+		{BoolName, !BoolValue, BoolValue},
+		{BoolName + "_nope", BoolValue, BoolValue},
+		{StringName, BoolValue, BoolValue},
 	}
-}
 
-func TestGetEnvIntDefault(t *testing.T) {
-	i := GetEnvIntOrDefault(IntName+"_nope", IntValue)
-	if i != IntValue {
-		t.Errorf("Expected %d but got %d", IntValue, i)
-	}
-}
-
-func TestGetEnvIntDefaultFromBadValue(t *testing.T) {
-	i := GetEnvIntOrDefault(StringName, IntValue)
-	if i != IntValue {
-		t.Errorf("Expected %d but got %d", IntValue, i)
-	}
-}
-
-func TestGetEnvBool(t *testing.T) {
-	b := GetEnvBoolOrDefault(BoolName, !BoolValue)
-	if b != BoolValue {
-		t.Errorf("Expected %v but got %v", BoolValue, b)
-	}
-}
-
-func TestGetEnvBoolOrDefaultGetsDefault(t *testing.T) {
-	b := GetEnvBoolOrDefault(BoolName+"_nope", BoolValue)
-	if b != BoolValue {
-		t.Errorf("Expected %v but got %v", BoolValue, b)
-	}
-}
-
-func TestGetEnvBoolOrDefaultGetsDefaultFromBadValue(t *testing.T) {
-	b := GetEnvBoolOrDefault(StringName, BoolValue)
-	if b != BoolValue {
-		t.Errorf("Expected %v but got %v", BoolValue, b)
+	for _, test := range tests {
+		b := GetEnvBoolOrDefault(test.envName, test.defValue)
+		if b != test.expected {
+			t.Errorf("Expected %v but got %v", test.expected, b)
+		}
 	}
 }
 
 func TestGetEnvDurationOrDefault(t *testing.T) {
-	d := GetEnvDurationOrDefault(DurationName, DurationValue-1)
-	if d != DurationValue {
-		t.Errorf("Expected %v but got %v", DurationValue, d)
+	var tests = []struct {
+		envName  string
+		defValue time.Duration
+		expected time.Duration
+	}{
+		{DurationName, DurationValue - 1, DurationValue},
+		{DurationName + "_nope", DurationValue, DurationValue},
+		{StringName, DurationValue, DurationValue},
 	}
-}
 
-func TestGetEnvDurationOrDefaultGetsDefault(t *testing.T) {
-	d := GetEnvDurationOrDefault(DurationName+"_nope", DurationValue)
-	if d != DurationValue {
-		t.Errorf("Expected %v but got %v", DurationValue, d)
-	}
-}
-
-func TestGetEnvDurationOrDefaultGetsDefaultFromBadValue(t *testing.T) {
-	d := GetEnvDurationOrDefault(StringName, DurationValue)
-	if d != DurationValue {
-		t.Errorf("Expected %v but got %v", DurationValue, d)
+	for _, test := range tests {
+		d := GetEnvDurationOrDefault(test.envName, test.defValue)
+		if d != test.expected {
+			t.Errorf("Expected %v but got %v", test.expected, d)
+		}
 	}
 }
