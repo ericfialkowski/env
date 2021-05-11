@@ -27,27 +27,27 @@ func init() {
 
 func TestGetEnvStringOrDefault(t *testing.T) {
 	var tests = []struct {
-		envName  string
-		defValue string
-		expected string
+		key           string
+		defaultValue  string
+		expectedValue string
 	}{
 		{StringName, StringValue + "_nope", StringValue},
 		{StringName + "_nope", StringValue, StringValue},
 	}
 
 	for _, test := range tests {
-		s := GetEnvStringOrDefault(test.envName, test.defValue)
-		if s != test.expected {
-			t.Errorf("Expected %s but got %s", test.expected, s)
+		s := GetEnvStringOrDefault(test.key, test.defaultValue)
+		if s != test.expectedValue {
+			t.Errorf("Expected %s but got %s", test.expectedValue, s)
 		}
 	}
 }
 
 func TestGetEnvIntOrDefault(t *testing.T) {
 	var tests = []struct {
-		envName  string
-		defValue int
-		expected int
+		key           string
+		defaultValue  int
+		expectedValue int
 	}{
 		{IntName, IntValue + 1, IntValue},
 		{IntName + "_nope", IntValue, IntValue},
@@ -55,18 +55,18 @@ func TestGetEnvIntOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i := GetEnvIntOrDefault(test.envName, test.defValue)
-		if i != test.expected {
-			t.Errorf("Expected %d but got %d", test.expected, i)
+		i := GetEnvIntOrDefault(test.key, test.defaultValue)
+		if i != test.expectedValue {
+			t.Errorf("Expected %d but got %d", test.expectedValue, i)
 		}
 	}
 }
 
 func TestGetEnvBoolOrDefault(t *testing.T) {
 	var tests = []struct {
-		envName  string
-		defValue bool
-		expected bool
+		key           string
+		defaultValue  bool
+		expectedValue bool
 	}{
 		{BoolName, !BoolValue, BoolValue},
 		{BoolName + "_nope", BoolValue, BoolValue},
@@ -74,18 +74,18 @@ func TestGetEnvBoolOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		b := GetEnvBoolOrDefault(test.envName, test.defValue)
-		if b != test.expected {
-			t.Errorf("Expected %v but got %v", test.expected, b)
+		b := GetEnvBoolOrDefault(test.key, test.defaultValue)
+		if b != test.expectedValue {
+			t.Errorf("Expected %v but got %v", test.expectedValue, b)
 		}
 	}
 }
 
 func TestGetEnvDurationOrDefault(t *testing.T) {
 	var tests = []struct {
-		envName  string
-		defValue time.Duration
-		expected time.Duration
+		key           string
+		defaultValue  time.Duration
+		expectedValue time.Duration
 	}{
 		{DurationName, DurationValue - 1, DurationValue},
 		{DurationName + "_nope", DurationValue, DurationValue},
@@ -93,9 +93,9 @@ func TestGetEnvDurationOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d := GetEnvDurationOrDefault(test.envName, test.defValue)
-		if d != test.expected {
-			t.Errorf("Expected %v but got %v", test.expected, d)
+		d := GetEnvDurationOrDefault(test.key, test.defaultValue)
+		if d != test.expectedValue {
+			t.Errorf("Expected %v but got %v", test.expectedValue, d)
 		}
 	}
 }
