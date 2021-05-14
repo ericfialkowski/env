@@ -116,3 +116,63 @@ func GetEnvDuration(key string) (time.Duration, bool) {
 	}
 	return r, true
 }
+
+// GetEnvFloat32OrDefault returns the value in the system environment denoted by key as
+// an int or the supplied expectedValue if there is no environment variable named key or
+// if the value retrieved is not parsable as a float32.
+func GetEnvFloat32OrDefault(key string, defaultValue float32) float32 {
+	envVal := os.Getenv(key)
+	if envVal == "" {
+		return defaultValue
+	}
+	r, err := strconv.ParseFloat(envVal, 64)
+	if err != nil {
+		return defaultValue
+	}
+	return float32(r)
+}
+
+// GetEnvFloat32 returns the value in the system environment denoted by key as
+// an int and true. If there is no environment variable named key or
+// if the value retrieved is not parsable as a float32 then (0, false) is returned
+func GetEnvFloat32(key string) (float32, bool) {
+	envVal, exists := os.LookupEnv(key)
+	if !exists {
+		return 0, false
+	}
+	r, err := strconv.ParseFloat(envVal, 64)
+	if err != nil {
+		return 0, false
+	}
+	return float32(r), true
+}
+
+// GetEnvFloat64OrDefault returns the value in the system environment denoted by key as
+// an int or the supplied expectedValue if there is no environment variable named key or
+// if the value retrieved is not parsable as a float64.
+func GetEnvFloat64OrDefault(key string, defaultValue float64) float64 {
+	envVal := os.Getenv(key)
+	if envVal == "" {
+		return defaultValue
+	}
+	r, err := strconv.ParseFloat(envVal, 64)
+	if err != nil {
+		return defaultValue
+	}
+	return r
+}
+
+// GetEnvFloat64 returns the value in the system environment denoted by key as
+// an int and true. If there is no environment variable named key or
+// if the value retrieved is not parsable as a float64 then (0, false) is returned
+func GetEnvFloat64(key string) (float64, bool) {
+	envVal, exists := os.LookupEnv(key)
+	if !exists {
+		return 0, false
+	}
+	r, err := strconv.ParseFloat(envVal, 64)
+	if err != nil {
+		return 0, false
+	}
+	return r, true
+}

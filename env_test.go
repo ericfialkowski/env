@@ -3,6 +3,7 @@ package env
 import (
 	"fmt"
 	"os"
+	"reflect"
 	"testing"
 	"time"
 )
@@ -16,6 +17,10 @@ const (
 	IntValue      = 1337
 	DurationName  = "TESTING_DURATION_ENV_VAR_1234"
 	DurationValue = time.Duration(1000 * 1000 * 1000 * 60)
+	Float32Name   = "TESTING_F32_ENV_VAR_1234"
+	Float32Value  = float32(1337.7331)
+	Float64Name   = "TESTING_F64_ENV_VAR_1234"
+	Float64Value  = float64(1337.7331)
 )
 
 func init() {
@@ -23,6 +28,8 @@ func init() {
 	os.Setenv(IntName, fmt.Sprint(IntValue))
 	os.Setenv(BoolName, fmt.Sprint(BoolValue))
 	os.Setenv(DurationName, fmt.Sprint(DurationValue))
+	os.Setenv(Float32Name, fmt.Sprint(Float32Value))
+	os.Setenv(Float64Name, fmt.Sprint(Float64Value))
 }
 
 func TestGetEnvStringOrDefault(t *testing.T) {
@@ -179,6 +186,91 @@ func TestGetEnvDuration(t *testing.T) {
 		d, f := GetEnvDuration(test.key)
 		if d != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, d)
+		}
+		if f != test.expectedFound {
+			t.Errorf("Expected found of %v but got %v", test.expectedFound, f)
+		}
+	}
+}
+
+func TestGetEnvFloat32OrDefault(t *testing.T) {
+	var tests = []struct {
+		key           string
+		defaultValue  float32
+		expectedValue float32
+	}{
+		{Float32Name, Float32Value + 1, Float32Value},
+		{Float32Name + "_nope", Float32Value, Float32Value},
+		{StringName, Float32Value, Float32Value},
+	}
+
+	for _, test := range tests {
+		i := GetEnvFloat32OrDefault(test.key, test.defaultValue)
+		if i != test.expectedValue {
+			t.Errorf("Expected %f but got %f", test.expectedValue, i)
+		}
+		if reflect.TypeOf(i).String() != "float32" {
+			t.Errorf("Expected float32 but got %v", reflect.TypeOf(i))
+		}
+	}
+}
+
+func TestGetEnvFloat32(t *testing.T) {
+	var tests = []struct {
+		key           string
+		expectedValue float32
+		expectedFound bool
+	}{
+		{Float32Name, Float32Value, true},
+		{Float32Name + "_nope", 0, false},
+		{StringName, 0, false},
+	}
+
+	for _, test := range tests {
+		i, f := GetEnvFloat32(test.key)
+		if i != test.expectedValue {
+			t.Errorf("Expected %f but got %f", test.expectedValue, i)
+		}
+		if f != test.expectedFound {
+			t.Errorf("Expected found of %v but got %v", test.expectedFound, f)
+		}
+	}
+}
+
+func TestGetEnvFloat64OrDefault(t *testing.T) {
+	var tests = []struct {
+		key           string
+		defaultValue  float64
+		expectedValue float64
+	}{
+		{Float64Name, Float64Value + 1, Float64Value},
+		{Float64Name + "_nope", Float64Value, Float64Value},
+		{StringName, Float64Value, Float64Value},
+	}
+
+	for _, test := range tests {
+		i := GetEnvFloat64OrDefault(test.key, test.defaultValue)
+		if i != test.expectedValue {
+			t.Errorf("Expected %f but got %f", test.expectedValue, i)
+		}
+	}
+}
+
+func TestGetEnvFloat64(t *testing.T) {
+	var tests = []struct {
+		key           string
+		expectedValue float64
+		expectedFound bool
+	}{
+		{Float64Name, Float64Value, true},
+		{Float64Name + "_nope", 0, false},
+		{StringName, 0, false},
+	}
+
+	for _, test := range tests {
+		i, f := GetEnvFloat64(test.key)
+		if i != test.expectedValue {
+			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
 		if f != test.expectedFound {
 			t.Errorf("Expected found of %v but got %v", test.expectedFound, f)
