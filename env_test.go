@@ -32,7 +32,7 @@ func init() {
 	os.Setenv(Float64Name, fmt.Sprint(Float64Value))
 }
 
-func TestGetEnvStringOrDefault(t *testing.T) {
+func TestGetStringOrDefault(t *testing.T) {
 	var tests = []struct {
 		key           string
 		defaultValue  string
@@ -43,14 +43,14 @@ func TestGetEnvStringOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		s := GetEnvStringOrDefault(test.key, test.defaultValue)
+		s := GetStringOrDefault(test.key, test.defaultValue)
 		if s != test.expectedValue {
 			t.Errorf("Expected %s but got %s", test.expectedValue, s)
 		}
 	}
 }
 
-func TestGetEnvString(t *testing.T) {
+func TestGetString(t *testing.T) {
 	var tests = []struct {
 		key           string
 		expectedValue string
@@ -61,7 +61,7 @@ func TestGetEnvString(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		s, f := GetEnvString(test.key)
+		s, f := GetString(test.key)
 		if s != test.expectedValue {
 			t.Errorf("Expected %s but got %s", test.expectedValue, s)
 		}
@@ -71,7 +71,7 @@ func TestGetEnvString(t *testing.T) {
 	}
 }
 
-func TestGetEnvIntOrDefault(t *testing.T) {
+func TestGetIntOrDefault(t *testing.T) {
 	var tests = []struct {
 		key           string
 		defaultValue  int
@@ -83,14 +83,14 @@ func TestGetEnvIntOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i := GetEnvIntOrDefault(test.key, test.defaultValue)
+		i := GetIntOrDefault(test.key, test.defaultValue)
 		if i != test.expectedValue {
 			t.Errorf("Expected %d but got %d", test.expectedValue, i)
 		}
 	}
 }
 
-func TestGetEnvInt(t *testing.T) {
+func TestGetInt(t *testing.T) {
 	var tests = []struct {
 		key           string
 		expectedValue int
@@ -102,7 +102,7 @@ func TestGetEnvInt(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i, f := GetEnvInt(test.key)
+		i, f := GetInt(test.key)
 		if i != test.expectedValue {
 			t.Errorf("Expected %d but got %d", test.expectedValue, i)
 		}
@@ -112,7 +112,7 @@ func TestGetEnvInt(t *testing.T) {
 	}
 }
 
-func TestGetEnvBoolOrDefault(t *testing.T) {
+func TestGetBoolOrDefault(t *testing.T) {
 	var tests = []struct {
 		key           string
 		defaultValue  bool
@@ -124,14 +124,14 @@ func TestGetEnvBoolOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		b := GetEnvBoolOrDefault(test.key, test.defaultValue)
+		b := GetBoolOrDefault(test.key, test.defaultValue)
 		if b != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, b)
 		}
 	}
 }
 
-func TestGetEnvBool(t *testing.T) {
+func TestGetBool(t *testing.T) {
 	var tests = []struct {
 		key           string
 		expectedValue bool
@@ -143,7 +143,7 @@ func TestGetEnvBool(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		v, f := GetEnvBool(test.key)
+		v, f := GetBool(test.key)
 		if v != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, v)
 		}
@@ -153,7 +153,7 @@ func TestGetEnvBool(t *testing.T) {
 	}
 }
 
-func TestGetEnvDurationOrDefault(t *testing.T) {
+func TestGetDurationOrDefault(t *testing.T) {
 	var tests = []struct {
 		key           string
 		defaultValue  time.Duration
@@ -165,13 +165,13 @@ func TestGetEnvDurationOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d := GetEnvDurationOrDefault(test.key, test.defaultValue)
+		d := GetDurationOrDefault(test.key, test.defaultValue)
 		if d != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, d)
 		}
 	}
 }
-func TestGetEnvDuration(t *testing.T) {
+func TestGetDuration(t *testing.T) {
 	var tests = []struct {
 		key           string
 		expectedValue time.Duration
@@ -183,7 +183,7 @@ func TestGetEnvDuration(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d, f := GetEnvDuration(test.key)
+		d, f := GetDuration(test.key)
 		if d != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, d)
 		}
@@ -193,7 +193,7 @@ func TestGetEnvDuration(t *testing.T) {
 	}
 }
 
-func TestGetEnvFloat32OrDefault(t *testing.T) {
+func TestGetFloat32OrDefault(t *testing.T) {
 	var tests = []struct {
 		key           string
 		defaultValue  float32
@@ -215,7 +215,7 @@ func TestGetEnvFloat32OrDefault(t *testing.T) {
 	}
 }
 
-func TestGetEnvFloat32(t *testing.T) {
+func TestGetFloat32(t *testing.T) {
 	var tests = []struct {
 		key           string
 		expectedValue float32
@@ -227,7 +227,7 @@ func TestGetEnvFloat32(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i, f := GetEnvFloat32(test.key)
+		i, f := GetFloat32(test.key)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
@@ -237,7 +237,7 @@ func TestGetEnvFloat32(t *testing.T) {
 	}
 }
 
-func TestGetEnvFloat64OrDefault(t *testing.T) {
+func TestGetFloat64OrDefault(t *testing.T) {
 	var tests = []struct {
 		key           string
 		defaultValue  float64
@@ -249,14 +249,14 @@ func TestGetEnvFloat64OrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i := GetEnvFloat64OrDefault(test.key, test.defaultValue)
+		i := GetFloat64OrDefault(test.key, test.defaultValue)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
 	}
 }
 
-func TestGetEnvFloat64(t *testing.T) {
+func TestGetFloat64(t *testing.T) {
 	var tests = []struct {
 		key           string
 		expectedValue float64
@@ -268,7 +268,7 @@ func TestGetEnvFloat64(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i, f := GetEnvFloat64(test.key)
+		i, f := GetFloat64(test.key)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
