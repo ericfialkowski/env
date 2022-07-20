@@ -24,12 +24,12 @@ const (
 )
 
 func init() {
-	os.Setenv(StringName, StringValue)
-	os.Setenv(IntName, fmt.Sprint(IntValue))
-	os.Setenv(BoolName, fmt.Sprint(BoolValue))
-	os.Setenv(DurationName, fmt.Sprint(DurationValue))
-	os.Setenv(Float32Name, fmt.Sprint(Float32Value))
-	os.Setenv(Float64Name, fmt.Sprint(Float64Value))
+	_ = os.Setenv(StringName, StringValue)
+	_ = os.Setenv(IntName, fmt.Sprint(IntValue))
+	_ = os.Setenv(BoolName, fmt.Sprint(BoolValue))
+	_ = os.Setenv(DurationName, fmt.Sprint(DurationValue))
+	_ = os.Setenv(Float32Name, fmt.Sprint(Float32Value))
+	_ = os.Setenv(Float64Name, fmt.Sprint(Float64Value))
 }
 
 func TestGetStringOrDefault(t *testing.T) {
@@ -46,6 +46,38 @@ func TestGetStringOrDefault(t *testing.T) {
 		s := GetStringOrDefault(test.key, test.defaultValue)
 		if s != test.expectedValue {
 			t.Errorf("Expected %s but got %s", test.expectedValue, s)
+		}
+	}
+}
+
+func TestGetStringOrPanic(t *testing.T) {
+	var tests = []struct {
+		key           string
+		expectedValue string
+		panicked      bool
+	}{
+		{StringName, StringValue, false},
+		{StringName + "_nope", "", true},
+	}
+
+	var panicOccurred bool
+	defer func() {
+		if err := recover(); err != nil {
+			panicOccurred = true
+		}
+	}()
+	for _, test := range tests {
+		panicOccurred = false
+		s := GetStringOrPanic(test.key)
+		if s != test.expectedValue {
+			t.Errorf("Expected %s but got %s", test.expectedValue, s)
+		}
+		if panicOccurred != test.panicked {
+			if panicOccurred {
+				t.Error("Panicked where we shouldn't have")
+			} else {
+				t.Error("Didn't panic but should have")
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@
 package env
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	"time"
@@ -12,9 +13,20 @@ import (
 // GetStringOrDefault returns the value in the system environment denoted by key or
 // the supplied expectedValue if there is no environment variable named key.
 func GetStringOrDefault(key, defaultValue string) string {
-	envVal := os.Getenv(key)
-	if envVal == "" {
+	envVal, exists := os.LookupEnv(key)
+	if !exists {
 		return defaultValue
+	}
+	return envVal
+}
+
+// GetStringOrPanic returns the value in the system environment denoted by key or
+// panics. Should really only be used when you can't run without the value and there
+// is no viable default to provide
+func GetStringOrPanic(key string) string {
+	envVal, exists := os.LookupEnv(key)
+	if !exists {
+		panic(fmt.Sprintf("Missing required environment variable value for %s", key))
 	}
 	return envVal
 }
@@ -29,8 +41,8 @@ func GetString(key string) (string, bool) {
 // a bool or the supplied expectedValue if there is no environment variable named key or
 // if the value retrieved is not parsable as a bool.
 func GetBoolOrDefault(key string, defaultValue bool) bool {
-	envVal := os.Getenv(key)
-	if envVal == "" {
+	envVal, exists := os.LookupEnv(key)
+	if !exists {
 		return defaultValue
 	}
 	r, err := strconv.ParseBool(envVal)
