@@ -43,7 +43,7 @@ func TestGetStringOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		s := GetStringOrDefault(test.key, test.defaultValue)
+		s := StringOrDefault(test.key, test.defaultValue)
 		if s != test.expectedValue {
 			t.Errorf("Expected %s but got %s", test.expectedValue, s)
 		}
@@ -68,7 +68,7 @@ func TestGetStringOrPanic(t *testing.T) {
 	}()
 	for _, test := range tests {
 		panicOccurred = false
-		s := GetStringOrPanic(test.key)
+		s := MustString(test.key)
 		if s != test.expectedValue {
 			t.Errorf("Expected %s but got %s", test.expectedValue, s)
 		}
@@ -93,7 +93,7 @@ func TestGetString(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		s, f := GetString(test.key)
+		s, f := String(test.key)
 		if s != test.expectedValue {
 			t.Errorf("Expected %s but got %s", test.expectedValue, s)
 		}
@@ -115,7 +115,7 @@ func TestGetIntOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i := GetIntOrDefault(test.key, test.defaultValue)
+		i := IntOrDefault(test.key, test.defaultValue)
 		if i != test.expectedValue {
 			t.Errorf("Expected %d but got %d", test.expectedValue, i)
 		}
@@ -134,7 +134,7 @@ func TestGetInt(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i, f := GetInt(test.key)
+		i, f := Int(test.key)
 		if i != test.expectedValue {
 			t.Errorf("Expected %d but got %d", test.expectedValue, i)
 		}
@@ -156,7 +156,7 @@ func TestGetBoolOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		b := GetBoolOrDefault(test.key, test.defaultValue)
+		b := BoolOrDefault(test.key, test.defaultValue)
 		if b != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, b)
 		}
@@ -175,7 +175,7 @@ func TestGetBool(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		v, f := GetBool(test.key)
+		v, f := Bool(test.key)
 		if v != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, v)
 		}
@@ -197,7 +197,7 @@ func TestGetDurationOrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d := GetDurationOrDefault(test.key, test.defaultValue)
+		d := DurationOrDefault(test.key, test.defaultValue)
 		if d != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, d)
 		}
@@ -215,7 +215,7 @@ func TestGetDuration(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		d, f := GetDuration(test.key)
+		d, f := Duration(test.key)
 		if d != test.expectedValue {
 			t.Errorf("Expected %v but got %v", test.expectedValue, d)
 		}
@@ -237,7 +237,7 @@ func TestGetFloat32OrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i := GetEnvFloat32OrDefault(test.key, test.defaultValue)
+		i := Float32OrDefault(test.key, test.defaultValue)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
@@ -259,7 +259,7 @@ func TestGetFloat32(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i, f := GetFloat32(test.key)
+		i, f := Float32(test.key)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
@@ -281,7 +281,7 @@ func TestGetFloat64OrDefault(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i := GetFloat64OrDefault(test.key, test.defaultValue)
+		i := Float64OrDefault(test.key, test.defaultValue)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
@@ -300,7 +300,7 @@ func TestGetFloat64(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		i, f := GetFloat64(test.key)
+		i, f := Float64(test.key)
 		if i != test.expectedValue {
 			t.Errorf("Expected %f but got %f", test.expectedValue, i)
 		}
