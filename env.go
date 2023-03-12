@@ -13,8 +13,8 @@ import (
 // GetStringOrDefault returns the value in the system environment denoted by key or
 // the supplied expectedValue if there is no environment variable named key.
 func GetStringOrDefault(key, defaultValue string) string {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return defaultValue
 	}
 	return envVal
@@ -24,8 +24,8 @@ func GetStringOrDefault(key, defaultValue string) string {
 // panics. Should really only be used when you can't run without the value and there
 // is no viable default to provide
 func GetStringOrPanic(key string) string {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		panic(fmt.Sprintf("Missing required environment variable value for %s", key))
 	}
 	return envVal
@@ -41,8 +41,8 @@ func GetString(key string) (string, bool) {
 // a bool or the supplied expectedValue if there is no environment variable named key or
 // if the value retrieved is not parsable as a bool.
 func GetBoolOrDefault(key string, defaultValue bool) bool {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return defaultValue
 	}
 	r, err := strconv.ParseBool(envVal)
@@ -56,8 +56,8 @@ func GetBoolOrDefault(key string, defaultValue bool) bool {
 // a bool and true. If there is no environment variable named key or
 // if the value retrieved is not parsable as a bool then (false, false) is returned
 func GetBool(key string) (bool, bool) {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return false, false
 	}
 	r, err := strconv.ParseBool(envVal)
@@ -86,8 +86,8 @@ func GetIntOrDefault(key string, defaultValue int) int {
 // an int and true. If there is no environment variable named key or
 // if the value retrieved is not parsable as an int then (0, false) is returned
 func GetInt(key string) (int, bool) {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return 0, false
 	}
 	r, err := strconv.Atoi(envVal)
@@ -118,8 +118,8 @@ func GetDurationOrDefault(key string, defaultValue time.Duration) time.Duration 
 // if the value retrieved is not parsable as an time.Duration then (0, false) is returned
 // See time.ParseDuration() for the allowed formatting of the environment variable.
 func GetDuration(key string) (time.Duration, bool) {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return 0, false
 	}
 	r, err := time.ParseDuration(envVal)
@@ -148,8 +148,8 @@ func GetEnvFloat32OrDefault(key string, defaultValue float32) float32 {
 // an int and true. If there is no environment variable named key or
 // if the value retrieved is not parsable as a float32 then (0, false) is returned
 func GetFloat32(key string) (float32, bool) {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return 0, false
 	}
 	r, err := strconv.ParseFloat(envVal, 64)
@@ -178,8 +178,8 @@ func GetFloat64OrDefault(key string, defaultValue float64) float64 {
 // an int and true. If there is no environment variable named key or
 // if the value retrieved is not parsable as a float64 then (0, false) is returned
 func GetFloat64(key string) (float64, bool) {
-	envVal, exists := os.LookupEnv(key)
-	if !exists {
+	envVal, ok := os.LookupEnv(key)
+	if !ok {
 		return 0, false
 	}
 	r, err := strconv.ParseFloat(envVal, 64)
